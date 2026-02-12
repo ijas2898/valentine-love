@@ -61,15 +61,34 @@
         .photo-bg {
             background-repeat: no-repeat;
             background-position: center center;
-            background-size: contain;   /* shows full image */
+            background-size: contain;
             background-attachment: fixed;
         }
 
-        /* Mobile adjustment */
         @media (max-width: 768px) {
             .photo-bg {
                 background-size: contain;
                 background-position: center top;
+            }
+        }
+
+        /* Floating Hearts */
+        .heart {
+            position: fixed;
+            bottom: -20px;
+            font-size: 20px;
+            animation: floatUp linear forwards;
+            pointer-events: none;
+        }
+
+        @keyframes floatUp {
+            from {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateY(-100vh);
+                opacity: 0;
             }
         }
     </style>
@@ -109,25 +128,43 @@
         // YES click action
         yesBtn.addEventListener("click", function() {
 
-            // Add background image properly
-            document.body.style.backgroundImage = 
+            document.body.style.backgroundImage =
                 "url('WhatsApp Image 2026-02-12 at 11.21.28.jpeg')";
 
             document.body.classList.add("photo-bg");
 
-            // Hide buttons
             yesBtn.style.display = "none";
             noBtn.style.display = "none";
 
-            // Show thank you message
             thankYou.style.display = "block";
 
-            // Play music safely
             music.currentTime = 0;
             music.play().catch(() => {
                 alert("Tap screen once and press YES again ❤️");
             });
+
+            startHearts();   // 🔥 Start heart animation
         });
+
+        function startHearts() {
+            setInterval(() => {
+
+                const heart = document.createElement("div");
+                heart.className = "heart";
+                heart.innerHTML = "💖";
+
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.fontSize = (Math.random() * 20 + 15) + "px";
+                heart.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 6000);
+
+            }, 300);
+        }
     </script>
 
 </body>
